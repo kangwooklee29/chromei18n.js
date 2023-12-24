@@ -118,6 +118,6 @@ Example of messages.json:
 }
 
 const alternateLinks = document.querySelectorAll('link[rel="alternate"]');
-const languageList = Array.from(alternateLinks).map(link => link.getAttribute('hreflang'));
+const languageList = Array.from(alternateLinks).map(link => link.getAttribute('hreflang')).filter(lang => lang !== null);
 const chromei18n = new Chromei18n(languageList);
 export default chromei18n;

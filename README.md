@@ -19,6 +19,42 @@ project-root/
 ...
 ```
 
+- Or you can hardcode the message information by the following way.
+
+```js
+chromei18n.messages = {
+  "en": {
+    "prompt_for_name": {
+      "message": "What's your name?",
+      "description": "Ask for the user's name"
+    },
+    "hello": {
+      "message": "Hello, $USER$",
+      "description": "Greet the user",
+      "placeholders": {
+        "user": {
+          "content": "$1",
+          "example": "Cira"
+        }
+      }
+    },
+    "bye": {
+      "message": "Goodbye, $USER$. Come back to $OUR_SITE$ soon!",
+      "description": "Say goodbye to the user",
+      "placeholders": {
+        "our_site": {
+          "content": "Example.com",
+        },
+        "user": {
+          "content": "$1",
+          "example": "Cira"
+        }
+      }
+    }
+  }
+}
+```
+
 2. You need to add the languages corresponding to the `message.json` files you created to your webpage using the `link rel='alternate'` tag.
 
 ```html
@@ -44,7 +80,7 @@ project-root/
 - Or you can use this tag instead of downloading the code.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/kangwooklee29/chromei18n.js@v1.0.0/src/chromei18n.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/kangwooklee29/chromei18n.js@latest/src/chromei18n.js"></script>
 ```
 
 For more information, please visit these links below.
@@ -56,9 +92,25 @@ For more information, please visit these links below.
 
 ## Example
 
+- The code that fetches messages after all messages.json files are loaded
+
 ```js
-document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = chromei18n.getMessage(el.getAttribute('data-i18n'));
+document.addEventListener("DOMContentLoaded", async () => {
+    await chromei18n.loadMessages(); // necessary if you use the messages.json files, unnecessary if you hardcode the message information.
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = chromei18n.getMessage(el.getAttribute('data-i18n'));
+    });
+});
+```
+
+- The code that fetches messages of a default language
+
+```js
+document.addEventListener("DOMContentLoaded", async () => {
+    await chromei18n.loadMessagesForLang(document.documentElement.lang); // You must set a default language for document.documentElement.lang in your code, e.g., <html lang="en">, or you can change it as needed.
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = chromei18n.getMessage(el.getAttribute('data-i18n'));
+    });
 });
 ```
 

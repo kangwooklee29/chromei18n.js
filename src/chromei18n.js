@@ -5,17 +5,23 @@ class Chromei18n {
         this.loadMessages();
     }
 
-    async loadMessages() {
-        const promises = this.languages.map(async (language) => {
-            try {
-                const response = await fetch(`/_locales/${language}/messages.json`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                this.messages[language] = await response.json();
-            } catch (error) {
-                console.error(`Error loading messages for ${language}:`, error);
+    async loadMessagesForLang(language) {
+        if (this.messages[language]) return;
+        try {
+            const response = await fetch(`/_locales/${language}/messages.json`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            this.messages[language] = await response.json();
+        } catch (error) {
+            console.error(`Error loading messages for ${language}:`, error);
+        }
+    }
+
+    async loadMessages() {
+        await this.loadMessagesForLang(document.documentElement.lang);
+        const promises = this.languages.map(async (language) => {
+            await this.loadMessagesForLang(language);
         });
 
         await Promise.all(promises);
@@ -113,5 +119,5 @@ Example of messages.json:
 
 const alternateLinks = document.querySelectorAll('link[rel="alternate"]');
 const languageList = Array.from(alternateLinks).map(link => link.getAttribute('hreflang'));
-const chromei18n = new Chromei18n([document.documentElement.lang, ...languageList]);
+const chromei18n = new Chromei18n(languageList);
 export default chromei18n;

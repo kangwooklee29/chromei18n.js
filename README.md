@@ -61,3 +61,7 @@ document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = chromei18n.getMessage(el.getAttribute('data-i18n'));
 });
 ```
+
+## License
+
+MIT license

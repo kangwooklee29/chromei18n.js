@@ -1,0 +1,13 @@
+{
+  "name": "chromei18n.js",
+  "version": "1.0",
+  "description": "A Vanilla JS library for multi-language support, similar to Google Chrome's chrome.i18n API",
+  "author": "Kangwook Lee",
+  "license": "MIT",
+  "keywords": [
+    "i18n", "internationalization", "chrome.i18n"
+  ],
+  "repository": "kangwooklee29/chromei18n.js",
+  "main": "src/chromei18n.js",
+  "browser": "src/chromei18n.js"
+}

@@ -2,6 +2,8 @@ class Chromei18n {
     constructor(languages) {
         this.languages = languages;
         this.messages = {};
+        if (!document.documentElement.lang)
+            document.documentElement.lang = navigator.language.split('-')[0];
         this.loadMessages();
     }
 

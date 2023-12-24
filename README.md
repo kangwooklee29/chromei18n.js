@@ -58,7 +58,7 @@ chromei18n.messages = {
 2. You need to add the languages corresponding to the `message.json` files you created to your webpage using the `link rel='alternate'` tag.
 
 ```html
-<html lang="en">
+<html lang="en"> <!-- Sets document.documentElement.lang to 'en' -->
 <head>
     <title>Your Website Title</title>
     <!-- Other tags -->
@@ -70,6 +70,8 @@ chromei18n.messages = {
 </head>
 ...
 ```
+
+- You don't need to add them if you've hardcoded the message information, but adding them is recommended for SEO purposes.
 
 3. Download `src/chromei18n.js` in this repository and add the `script` tag to your webpage or import it in your JS code.
 
@@ -107,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 ```js
 document.addEventListener("DOMContentLoaded", async () => {
-    await chromei18n.loadMessagesForLang(document.documentElement.lang); // You must set a default language for document.documentElement.lang in your code, e.g., <html lang="en">, or you can change it as needed.
+    await chromei18n.loadMessagesForLang(document.documentElement.lang); // This library sets document.documentElement.lang as navigator.language.split('-')[0] if you didn't specify it. You can change this code as needed.
     document.querySelectorAll('[data-i18n]').forEach(el => {
         el.textContent = chromei18n.getMessage(el.getAttribute('data-i18n'));
     });
